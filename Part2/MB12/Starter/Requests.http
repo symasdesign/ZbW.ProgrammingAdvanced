@@ -1,0 +1,13 @@
+@host = http://localhost:5052
+
+### Gültige Anfrage: 200 und zwei Wetter-Datensätze
+GET {{host}}/weatherforecast?days=2
+Accept: application/json
+
+### Ungültiger Wertebereich: 400
+GET {{host}}/weatherforecast?days=0
+Accept: application/json
+
+### Unbekannter Pfad: 404
+GET {{host}}/unbekannt
+Accept: application/json
