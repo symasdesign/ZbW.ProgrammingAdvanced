@@ -1,0 +1,77 @@
+<Window
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Class="CustomerApp.MainWindow"
+    Title="MB05 Kundenverwaltung · Starter"
+    Width="820"
+    Height="560"
+    MinWidth="680"
+    MinHeight="460"
+    Loaded="Window_Loaded"
+    Language="de-CH">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Grid.ColumnSpan="3"
+            Text="Kunden: Auswahl und Details"
+            FontSize="22"
+            FontWeight="Bold"
+            Margin="0,0,0,15" />
+        <ListBox
+            x:Name="CustomersList"
+            Grid.Row="1"
+            DisplayMemberPath="CompanyName"
+            SelectionChanged="Customers_SelectionChanged" />
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="2">
+            <!-- TODO: Text-Bindings statt manueller Feldübertragung. -->
+            <TextBlock Text="CustomerID"/>
+            <TextBlock
+                x:Name="IdText"
+                Text="{Binding CustomerID}"
+                FontWeight="Bold" />
+            <TextBlock
+                Text="Firma"
+                Margin="0,12,0,3" />
+            <TextBox
+                x:Name="CompanyNameBox"
+                Padding="6" />
+            <TextBlock
+                Text="Kontakt"
+                Margin="0,12,0,3" />
+            <TextBox
+                x:Name="ContactNameBox"
+                Padding="6" />
+            <TextBlock
+                Text="Telefon"
+                Margin="0,12,0,3" />
+            <TextBox
+                x:Name="PhoneBox"
+                Padding="6" />
+        </StackPanel>
+        <DockPanel
+            Grid.Row="2"
+            Grid.ColumnSpan="3"
+            Margin="0,16,0,0">
+            <Button
+                DockPanel.Dock="Right"
+                Content="Speichern"
+                Click="Save_Click"
+                Padding="18,7" />
+            <TextBlock
+                x:Name="StatusText"
+                Text="Bereit"
+                TextWrapping="Wrap" />
+        </DockPanel>
+    </Grid>
+</Window>

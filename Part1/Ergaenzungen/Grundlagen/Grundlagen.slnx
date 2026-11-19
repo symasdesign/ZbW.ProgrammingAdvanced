@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Integration/Integration.csproj" />
+  <Project Path="Primzahlsieb/Primzahlsieb.csproj" />
+  <Project Path="Vektorrechnung/Vektorrechnung.csproj" />
+</Solution>

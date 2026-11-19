@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net11.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../../../MB06/Solution/Datasource/Datasource.csproj" />
+    <Compile Include="../Shared/**/*.cs" LinkBase="Services" />
+    <None Include="../../../MB06/Solution/App/CustomersOrders.xml" Link="CustomersOrders.xml" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

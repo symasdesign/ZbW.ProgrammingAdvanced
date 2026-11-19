@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="App/CustomerApp.csproj" />
+  <Project Path="Datasource/Datasource.csproj" />
+  <Project Path="Tests/Tests.csproj" />
+</Solution>

@@ -1,0 +1,26 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
+
+[*.cs]
+# K&R: die oeffnende Klammer steht am Ende der zugehoerigen Zeile.
+csharp_new_line_before_open_brace = none
+csharp_new_line_before_else = false
+csharp_new_line_before_catch = false
+csharp_new_line_before_finally = false
+csharp_preserve_single_line_blocks = false
+csharp_preserve_single_line_statements = false
+
+# Lokale Typinferenz ist bevorzugt; didaktische statische Vertraege bleiben explizit.
+csharp_style_var_for_built_in_types = true:suggestion
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere = true:suggestion
+dotnet_diagnostic.IDE0007.severity = suggestion
+
+# Do not use top-level statements. Einstieg immer ueber Program.Main.
+csharp_style_prefer_top_level_statements = false:warning
+dotnet_diagnostic.IDE0210.severity = none
+dotnet_diagnostic.IDE0211.severity = warning

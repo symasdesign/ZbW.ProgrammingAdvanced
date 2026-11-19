@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ArrayList/ArrayList.csproj" />
+  <Project Path="CompletionCallback/CompletionCallback.csproj" />
+  <Project Path="Counter/Counter.csproj" />
+  <Project Path="Sort/Sort.csproj" />
+</Solution>

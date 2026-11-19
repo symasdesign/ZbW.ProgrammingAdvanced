@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Paare/Paare.csproj" />
+  <Project Path="Stack/Stack.csproj" />
+</Solution>

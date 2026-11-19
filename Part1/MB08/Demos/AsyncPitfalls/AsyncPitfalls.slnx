@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="Pitfall1/Pitfall1.csproj" />
+  <Project Path="Pitfall2/Pitfall2.csproj" />
+  <Project Path="Pitfall3/Pitfall3.csproj" />
+  <Project Path="Pitfall4/Pitfall4.csproj" />
+  <Project Path="Pitfall5/Pitfall5.csproj" />
+</Solution>

@@ -1,0 +1,41 @@
+using Datasource;
+using System.Collections.Specialized;
+
+internal class Program {
+    private static void Main(string[] args) {
+        var failed = 0;
+        void Check(bool condition, string name) {
+            Console.WriteLine($"{(condition ? "PASS" : "FAIL")} {name}");
+            if (!condition)
+                failed++;
+        }
+        var data = Data.Load(Path.Combine(AppContext.BaseDirectory, "CustomersOrders.xml"));
+        Check(data.Customers.CustomerList.Count > 1, "Originaldaten laden mehrere Kunden");
+        Check(data.Orders.OrderList.Count > 0, "Bestellungen bleiben erhalten");
+        var customer = data.Customers.CustomerList[0];
+        customer.CompanyName = "Rundreise-Test";
+        var path = Path.Combine(Path.GetTempPath(), $"pga-test-{Guid.NewGuid():N}.xml");
+        try {
+            data.Save(path);
+            var copy = Data.Load(path);
+            Check(copy.Customers.CustomerList[0].CompanyName == "Rundreise-Test", "XML-Rundreise erhält Änderungen");
+            Check(copy.Orders.OrderList.Count == data.Orders.OrderList.Count, "XML-Rundreise erhält Bestellungen");
+        } finally { if (File.Exists(path)) File.Delete(path); }
+        var names = new List<string?>();
+        customer.PropertyChanged += (_, e) => names.Add(e.PropertyName);
+        customer.CompanyName = "Neu";
+        customer.CompanyName = "Neu";
+        Check(names.SequenceEqual(new[] { "CompanyName" }), "Genau ein Ereignis bei echter Änderung");
+        var changes = 0;
+        if (data.Customers.CustomerList is INotifyCollectionChanged observable)
+            observable.CollectionChanged += (_, _) => changes++;
+        var extra = new Customer { CustomerID = "TEST", CompanyName = "Test" };
+        data.Customers.CustomerList.Add(extra);
+        data.Customers.CustomerList.Remove(extra);
+        Check(changes == 2, "Collection meldet Add und Remove");
+        customer.CompanyName = "";
+        Check(customer[nameof(Customer.CompanyName)].Length > 0, "Bestehende Validierung erkennt leere Firma");
+
+        Environment.ExitCode = failed == 0 ? 0 : 1;
+    }
+}
