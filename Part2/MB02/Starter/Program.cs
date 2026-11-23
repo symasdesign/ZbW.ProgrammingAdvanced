@@ -6,8 +6,8 @@ internal class Program {
         Console.OutputEncoding = Encoding.UTF8;
         CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
         var mode = args.Length == 0 ? "all" : args[0];
-        if (mode is not ("all" or "pipeline" or "sort" or "minimum")) {
-            Console.Error.WriteLine("Modus: all | pipeline | sort | minimum.");
+        if (mode is not ("all" or "pipeline" or "sort" or "minimum" or "greeting")) {
+            Console.Error.WriteLine("Modus: all | pipeline | sort | minimum | greeting.");
             Environment.ExitCode = 2;
             return;
         }
@@ -37,6 +37,10 @@ internal class Program {
             foreach (var p in people)
                 Console.WriteLine($"{p.Id}: {p.Name}");
         });
+        Run("greeting", () => {
+            Console.WriteLine(Operations.Greeting(null));
+            Console.WriteLine(Operations.Greeting("Ada"));
+        });
         Run("minimum", () => {
             Console.WriteLine(Operations.Minimum(new[] { 4, 2, 9, 2 }));
             Console.WriteLine(Operations.Minimum(new[] { "Zug", "Bern", "Basel" }));
@@ -60,6 +64,11 @@ public sealed record Person(int Id, string Name) : IComparable<Person> {
     public int CompareTo(Person? other) => other is null ? 1 : Id.CompareTo(other.Id);
 }
 public static class Operations {
+    public static string Greeting(string? name) {
+        // TODO: nullable Name ohne ! sicher behandeln.
+        throw new NotImplementedException();
+    }
+
     public static void Sort<T>(List<T> items) where T : IComparable<T> {
         // TODO: Constraint und Sortierung erklären und implementieren.
         throw new NotImplementedException();

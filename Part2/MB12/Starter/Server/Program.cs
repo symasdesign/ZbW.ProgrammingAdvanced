@@ -6,7 +6,7 @@ internal class Program {
 
         // Das Framework erstellt Controller und serialisiert ihre Antworten als JSON.
         builder.Services.AddControllers();
-        builder.Services.AddTransient<IForecastService, ForecastService>();
+        builder.Services.AddScoped<IForecastService, ForecastService>();
 
         var app = builder.Build();
 

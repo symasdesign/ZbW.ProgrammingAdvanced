@@ -2,6 +2,13 @@ using CleanCodeDemo;
 
 internal class Program {
     private static void Main(string[] args) {
+        if (args.FirstOrDefault() == "order") {
+            var customer = new Customer(1, "Ada", "Meier", 32);
+            var order = Order.FromCustomer(42, customer, new DateTime(2026, 10, 11));
+            Console.WriteLine($"{order.Number} | {order.Customer} | {order.OrderDate:yyyy-MM-dd} | {order.Delivered}");
+            return;
+        }
+
         var customers = new List<Customer> {
             new(1, "alice", "Meier", 12),
             new(2, "bob", "Meier", 9),

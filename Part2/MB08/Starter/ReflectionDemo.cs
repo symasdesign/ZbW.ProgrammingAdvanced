@@ -15,12 +15,8 @@ public static class ReflectionDemo {
         Console.WriteLine("Construct vervollständigen.");
     }
 
-    public static void Shop() {
-        ITerminal terminal = new EftTerminal();
-        ICreditCard card = new Visa(terminal);
-        var shopper = new Shopper(card);
-        Console.WriteLine(shopper.Checkout(25m));
-        // TODO: Karte im Composition Root wechseln; Shopper unverändert lassen.
-        // Den Parametertyp des Shopper-Konstruktors per Reflection ausgeben.
+    public static void Graph() {
+        // TODO: Ermittle den öffentlichen Konstruktor von Shopper und lies den Parametertyp.
+        Console.WriteLine("Konstruktor von Shopper untersuchen.");
     }
 }

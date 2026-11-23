@@ -1,13 +1,14 @@
 using System.Globalization;
 using System.Text;
+using System.Text.RegularExpressions;
 
 internal class Program {
     private static void Main(string[] args) {
         Console.OutputEncoding = Encoding.UTF8;
         CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
         var mode = args.Length == 0 ? "all" : args[0];
-        if (mode is not ("all" or "cities" or "rows" or "query")) {
-            Console.Error.WriteLine("Modus: all | cities | rows | query.");
+        if (mode is not ("all" or "hex" or "extended" or "cases")) {
+            Console.Error.WriteLine("Modus: all | hex | extended | cases.");
             Environment.ExitCode = 2;
             return;
         }
@@ -23,42 +24,29 @@ internal class Program {
             }
         }
 
-        Run("cities", () => {
-            var cities = new List<string> { "Bern", "Basel", "Zürich", "Genf", "Biel" };
-            IEnumerable<string> query = Operations.FilterCities(cities);
-            Console.WriteLine(string.Join(", ", query));
-            var snapshot = query.ToList();
-            cities.Add("Baden");
-            Console.WriteLine($"Query: {string.Join(", ", query)}");
-            Console.WriteLine($"Liste: {string.Join(", ", snapshot)}");
+        var samples = new[] { "#123", "ABCDEF", "#abc", "  #123  ", "#12345", "#12G", "x#ABCDEFx", "" };
+        Run("hex", () => {
+            foreach (var text in samples)
+                Console.WriteLine($"'{text}': {Operations.IsHexUpper(text)}");
         });
-        Run("rows", () => {
-            var rows = new List<DataRow> {
-                new(2, "fix"), new(5, "fix"), new(6, "fix"),
-                new(3, "fix"), new(4, "other"), new(0, "fix")
-            };
-            foreach (var row in Operations.SelectRows(rows))
-                Console.WriteLine($"{row.Number}: {row.Text}");
+        Run("extended", () => {
+            foreach (var text in samples)
+                Console.WriteLine($"'{text}': {Operations.IsHex(text)}");
         });
-        Run("query", () => {
-            var cities = new[] { "Bern", "Basel", "Zürich", "Genf", "Biel" };
-            Console.WriteLine(string.Join(", ", Operations.QuerySyntax(cities)));
+        Run("cases", () => {
+            foreach (var text in samples)
+                Console.WriteLine($"'{text}': upper={Operations.IsHexUpper(text)}, extended={Operations.IsHex(text)}");
         });
     }
 }
 
-public sealed record DataRow(int Number, string Text);
 public static class Operations {
-    public static IEnumerable<string> FilterCities(IEnumerable<string> cities) {
-        // TODO: B-Städte filtern und sortieren.
+    public static bool IsHexUpper(string text) {
+        // TODO: ganzes HEX-Color-Muster formulieren.
         throw new NotImplementedException();
     }
-    public static List<DataRow> SelectRows(IEnumerable<DataRow> rows) {
-        // TODO: Bedingungen, Sortierung und Materialisierung ergänzen.
-        throw new NotImplementedException();
-    }
-    public static IEnumerable<string> QuerySyntax(IEnumerable<string> cities) {
-        // TODO: gleichwertige Querysyntax schreiben.
+    public static bool IsHex(string text) {
+        // TODO: vollständiges Pattern mit Whitespace und IgnoreCase.
         throw new NotImplementedException();
     }
 }

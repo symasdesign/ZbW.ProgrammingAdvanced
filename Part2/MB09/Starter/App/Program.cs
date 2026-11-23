@@ -1,22 +1,44 @@
-using Course.Reflection;
+using System.Globalization;
+using System.Text;
 using Course.Shop;
 
 internal class Program {
     private static void Main(string[] args) {
-        var mode = args.FirstOrDefault() ?? "inspect";
-        switch (mode) {
-            case "inspect":
-                ReflectionDemo.Inspect();
-                break;
-            case "construct":
-                ReflectionDemo.Construct();
-                break;
-            case "shop":
-                ReflectionDemo.Shop();
-                break;
-            default:
-                Console.WriteLine("Aufruf: inspect | construct | shop");
-                break;
+        Console.OutputEncoding = Encoding.UTF8;
+        CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+        var mode = args.Length == 0 ? "all" : args[0];
+        if (mode is not ("all" or "shop" or "mastercard" or "graph")) {
+            Console.Error.WriteLine("Modus: all | shop | mastercard | graph.");
+            Environment.ExitCode = 2;
+            return;
         }
+
+        void Run(string id, Action action) {
+            if (mode != "all" && mode != id)
+                return;
+            Console.WriteLine($"--- {id} ---");
+            try {
+                action();
+            } catch (NotImplementedException) {
+                Console.WriteLine("TODO: Aufgabenmethode vervollständigen.");
+            }
+        }
+
+        var terminal = new EftTerminal();
+        Run("shop", () => {
+            var shopper = CompositionRoot.CreateShopper(new Visa(terminal));
+            Console.WriteLine(shopper.Checkout(25m));
+        });
+        Run("mastercard", () => {
+            var shopper = CompositionRoot.CreateShopper(new MasterCard(terminal));
+            Console.WriteLine(shopper.Checkout(25m));
+        });
+        Run("graph", () => {
+            foreach (var type in new[] { typeof(Shopper), typeof(Visa), typeof(MasterCard) }) {
+                var constructor = type.GetConstructors().Single();
+                foreach (var parameter in constructor.GetParameters())
+                    Console.WriteLine($"{type.Name} -> {parameter.ParameterType.Name}");
+            }
+        });
     }
 }

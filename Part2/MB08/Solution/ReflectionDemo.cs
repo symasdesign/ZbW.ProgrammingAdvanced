@@ -26,12 +26,9 @@ public static class ReflectionDemo {
         Console.WriteLine($"Nach Increment: {counter.CountValue}");
     }
 
-    public static void Shop() {
-        ITerminal terminal = new EftTerminal();
-        ICreditCard card = new MasterCard(terminal);
-        var shopper = new Shopper(card);
-        Console.WriteLine(shopper.Checkout(25m));
+    public static void Graph() {
         var constructor = typeof(Shopper).GetConstructors().Single();
-        Console.WriteLine($"Shopper braucht: {constructor.GetParameters()[0].ParameterType.Name}");
+        foreach (var parameter in constructor.GetParameters())
+            Console.WriteLine($"Shopper braucht: {parameter.ParameterType.Name}");
     }
 }
